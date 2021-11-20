@@ -1,0 +1,63 @@
+#include "header.h"
+
+int main()
+{
+    char result[100][30];
+    int cek = 0;
+    char id[300];               // tampungan id
+    int found = 0, control = 0; // penanda ditemukannya kode rahasia
+    scanf("%299[^\n]s", id);    // meminta masukan nama dan id
+    startKata(id);
+    start(getCKata()); // menjalankan mesin kata, memproses kalimat id
+    while (eopKata(id) == 0)
+    {
+        if (control != 0)
+        {
+            incKata(id);
+        }
+        while (eop() == 0 && cek == 0) // selama bukan akhir kalimat dan kode rahasia tidak ditemukan
+        {
+            char temp[6];
+            char temp1 = getCC(); // penampung huruf ke-1
+            inc(getCKata());
+            if (eop() == 0 && (temp1 == 'a' || temp1 == 'i' || temp1 == 'u' || temp1 == 'e' || temp1 == 'o') && temp1 != ' ') // jika bukan akhir kalimat
+            {
+                temp[0] = temp1;
+                char temp2 = getCC();                                                                                             // penampung huruf kedua
+                if (eop() == 0 && (temp2 != 'a' && temp2 != 'i' && temp2 != 'u' && temp2 != 'e' && temp2 != 'o') && temp2 != ' ') // jika bukan akhir kalimat
+                {
+                    inc(getCKata()); // memajukan pita kalimat
+                    temp[1] = temp2;
+                    char temp3 = getCC();
+                    if (eop() == 0 && (temp3 != 'a' && temp3 != 'i' && temp3 != 'u' && temp3 != 'e' && temp3 != 'o') && temp3 != ' ')
+                    {
+                        inc(getCKata());
+                        temp[2] = temp3;
+                        char temp4 = getCC();
+                        if (eop() == 0 && (temp4 != 'a' && temp4 != 'i' && temp4 != 'u' && temp4 != 'e' && temp4 != 'o') && temp4 != ' ')
+                        {
+                            inc(getCKata());
+                            temp[3] = temp4;
+                            if (eop() == 0 && (getCC() == 'a' || getCC() == 'i' || getCC() == 'u' || getCC() == 'e' || getCC() == 'o') && getCC() != ' ')
+                            {
+                                temp[4] = getCC();
+                                temp[5] = '\0';
+                                strcpy(result[found], getCKata());
+                                cek = 1;
+                                found++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        control = 1;
+        cek = 0;
+    }
+    for (int i = 0; i < found; i++)
+    {
+        printf("%s\n", result[i]);
+    }
+    printf("%d\n", found);
+    return 0;
+}
